@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="segundapagina.css">
+    <link rel="icon" href="./Imagens/logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>SolarLab</title>
+</head>
+<body>
+    <header>
+        <div class="divIframe1"><iframe width="450" height="250" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2269649/charts/1?bgcolor=%23ffffff&color=%23008000&dynamic=true&results=60&type=line"></iframe></div>
+        <div class="divIframe2">
+            <iframe width="450" height="220" style="background-color: transparent; border: 5px solid #03948E;" src="https://thingspeak.com/channels/2269649/widgets/713753" frameborder="0" allowtransparency="true"></iframe>
+          </div>
+
+          <div class="divIframe3">
+            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/apps/matlab_visualizations/530159"></iframe>
+        </div>
+    
+    </header>
+
+    <div class="card-1>">
+
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Cidade" 
+            spellcheck="false">
+            <button><img src="./Imagens/lupa.png"></button>
+        </div>
+    
+        <div class="solarlab">
+            <img src="./Imagens/sol e nuvem.png" class="weather-icon">
+            <b><h1 class="temp">22°C</h1></b>
+            <h2 class="city">São Paulo</h2>
+            <div class="details">
+                <div class="col">
+                    <img class="humit-1" src="./Imagens/humidade.png">
+                    <div>
+                        <p class="humidt-css">50%</p>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <img src="./Imagens/vento.png">
+                    <div>
+                        <p class="km-class">15 km/H</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+                
+    <script>
+    
+    const apiKey = "544c77fe9af4864b39baeeaed857e3ec";
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+    
+    const searchBox = document.querySelector(".search input");
+    const searchBtn = document.querySelector(".search");
+    const weatherIcon = document.querySelector(".weather-icon");
+    
+    
+    
+    async function checkWeather(city){
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+        var data = await response.json();
+    
+        console.log(data);
+    
+        document.querySelector(".city").innerHTML = data.name;
+        document.querySelector(".temp").innerHTML = data.main.temp + "°C";
+        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+        document.querySelector(".wind").innerHTML = data.wind.speed + "Km/h";
+    
+        if(data.weather[0].main == "Clear"){
+            weatherIcon .src = "imagens/tempolimpo.png";
+        }
+        else if(data.weather[0].main == "Clouds"){
+            weatherIcon.src = "imagens/sol e nuvem.png";
+        }
+        else if(data.weather[0].main == "Rain"){
+            weatherIcon.src = "imagens/raio.png";
+        }
+        else if(data.weather[0].main == "Mist"){
+            weatherIcon.src = "imagens/tempolimpo.png";
+        }
+        else if(data.weather[0].main == "Drizzle"){
+            weatherIcon.src = "imagens/chuvisco.png";
+        }
+        else if(data.weather[0].main == "Snow"){
+            weatherIcon.src = "imagens/neve.png";
+        }
+    
+    }
+    
+    searchBtn.addEventListener("click", ()=>{
+        checkWeather(searchBox.value);
+    })
+    
+    </script>
+
+    
+
+</body>
+</html>
+
